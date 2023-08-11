@@ -1,18 +1,26 @@
 package de.viadee.javakurs;
 
-import org.apache.commons.validator.EmailValidator;
+import de.viadee.javakurs.services.UserService;
 
 public class App {
 
-    public static void main(String[] args) {
-        String email = "Hallo Bochum!";
-        boolean mailOk = EmailValidator.getInstance().isValid(email);
+    public static String TITEL = "Diavolo 5";
 
-        if(mailOk) {
+    public App() {
+        UserService userService = new UserService();
+
+        String email = "Hallo Bochum!";
+        String mailOk = userService.validateEMail(email);
+
+        if(mailOk.equals("")) {
             System.out.println("E-Mail ist Ok!");
         } else {
             System.out.println("E-Mail ist nicht gut!");
         }
+    }
+
+    public static void main(String[] args) {
+        new App();
     }
 
 }
