@@ -17,4 +17,5 @@ application {
 }
 
 dependencies {
+    implementation 'commons-validator:commons-validator:1.2.0'
 }
