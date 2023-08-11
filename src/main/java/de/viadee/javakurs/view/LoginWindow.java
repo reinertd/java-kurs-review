@@ -33,6 +33,11 @@ public class LoginWindow extends JPanel {
         add(password);
 
         final JButton loginButton = new JButton("Login");
+        ActionListener buttonaction = (e) -> {
+            message.setText("Hallo Welt!");
+            loginButton.setBackground(Color.GREEN);
+        };
+        loginButton.addActionListener(buttonaction);
         add(loginButton);
 
         add(Box.createRigidArea(new Dimension(300, 30)));
