@@ -4,6 +4,7 @@ import de.viadee.javakurs.services.UserService;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class LoginWindow extends JPanel {
 
@@ -18,6 +19,18 @@ public class LoginWindow extends JPanel {
         emailLabel.setLabelFor(email);
         add(emailLabel);
         add(email);
+
+        add(Box.createRigidArea(new Dimension(14, 30)));
+
+        final JPasswordField password = new JPasswordField(20);
+        JLabel passwordLabel = new JLabel("Passwort:");
+        passwordLabel.setLabelFor(password);
+        ActionListener loginaction = (e) -> {
+            message.setText(userService.login(email.getText()));
+        };
+        password.addActionListener(loginaction);
+        add(passwordLabel);
+        add(password);
 
         final JButton loginButton = new JButton("Login");
         add(loginButton);
