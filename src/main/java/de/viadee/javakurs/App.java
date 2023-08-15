@@ -10,9 +10,17 @@ public class App {
         UserService userService = new UserService();
 
         String email = "Hallo Bochum!";
-        String mailOk = userService.validateEMail(email);
+        boolean mailOk = false;
+        int zaehler;
+        char zeichen = ' ';
 
-        if(mailOk.equals("")) {
+        mailOk = email.equals("test@test.de");
+
+        zaehler = 3;
+
+        mailOk = email.charAt(zaehler) == zeichen;
+
+        if(mailOk) {
             System.out.println("E-Mail ist Ok!");
         } else {
             System.out.println("E-Mail ist nicht gut!");
