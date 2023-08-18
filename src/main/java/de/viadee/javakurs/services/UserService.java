@@ -32,6 +32,9 @@ public class UserService {
         if(!this.passwordHasDigits(password)) {
             return false;
         }
+        if(!this.passwordHasUppercaseCharacters(password)) {
+            return false;
+        }
         // Check password
         return true;
     }
@@ -62,6 +65,11 @@ public class UserService {
     }
 
     protected boolean passwordHasUppercaseCharacters(char[] password) {
+        for(int i=0;i<password.length;i++){
+            if((Character.isUpperCase(password[i]))) {
+                return true;
+            }
+        }
         return false;
     }
 
