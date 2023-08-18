@@ -14,6 +14,6 @@ public class UserServiceTest {
 
     @Test
     public void loginTest() {
-        Assert.assertEquals(true, userService.login("test@test.de",new char[]{' '}));
+        Assert.assertEquals(true, userService.login("test@test.de",new char[]{' ',' ',' ',' ',' ',' ',' ',' ',' '}));
     }
 }
