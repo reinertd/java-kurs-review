@@ -37,7 +37,7 @@ public class UserServiceTest {
         Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("Hallo",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R', 'd'}));
         Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R'}));
         Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'a', 'a', 'A', 'a', '$', 'w', 'R', 'd'}));
-        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'a', 'b', 'a', 'a', '$', 'w', 'r', 'd'}));
+        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'a', 'a', '$', 'w', 'r', 'd'}));
         // TODO: Bonus
         //  Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'A', 'A', '$', 'W', 'R', 'D'}));
         //  Assert.assertFalse("Passwort ist nicht richtig, obwohl es korrekt sein sollte", userService.login("t@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
