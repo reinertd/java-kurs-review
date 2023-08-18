@@ -19,15 +19,6 @@ public class UserService {
         this.passwordValidators = new PasswordValidator[1];
     }
 
-    public boolean passwortLenghtIsOk(char[] s) {
-        if (s.length < 8) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-
     public boolean login(String email, char[] password) {
         final StringBuffer messages = new StringBuffer();
         // Validate E-Mail
@@ -35,7 +26,10 @@ public class UserService {
             return false;
         }
         // Valiate Passwords
-        if(!this.passwortLenghtIsOk(password)) {
+        if(!this.passwordLengthIsOk(password)) {
+            return false;
+        }
+        if(!this.passwordHasDigits(password)) {
             return false;
         }
         // Check password
@@ -48,6 +42,27 @@ public class UserService {
         } else {
             return true;
         }
+    }
+
+    protected boolean passwordLengthIsOk(char[] s) {
+        if (s.length < 8) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected boolean passwordHasDigits(char[] password) {
+        for(int i=0;i<password.length;i++){
+            if((Character.isDigit(password[i]))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected boolean passwordHasUppercaseCharacters(char[] password) {
+        return false;
     }
 
     private boolean passwordIsCorrect(String username, char[] password) {
