@@ -8,7 +8,12 @@ public class UserServiceTest {
     UserService userService = new UserService();
 
     @Test
+    public void emailIsOkTest() {
+        Assert.assertEquals(true, userService.emailIsOk("test@test.de"));
+    }
+
+    @Test
     public void loginTest() {
-        Assert.assertEquals(UserService.LOGIN_OK, userService.login("test@test.de"));
+        Assert.assertEquals(true, userService.login("test@test.de",new char[]{' '}));
     }
 }
