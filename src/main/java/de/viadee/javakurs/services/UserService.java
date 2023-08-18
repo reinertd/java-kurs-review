@@ -1,6 +1,7 @@
 package de.viadee.javakurs.services;
 
 import com.google.common.hash.Hashing;
+import de.viadee.javakurs.model.Admin;
 import de.viadee.javakurs.model.PasswordValidator;
 import org.apache.commons.validator.EmailValidator;
 
@@ -14,7 +15,10 @@ public class UserService {
 
     private final PasswordValidator[] passwordValidators;
 
-    public UserService() {
+    private final GameService gameService;
+
+    public UserService(GameService gameService) {
+        this.gameService = gameService;
         this.emailValidator = EmailValidator.getInstance();
         this.passwordValidators = new PasswordValidator[1];
     }
@@ -35,7 +39,16 @@ public class UserService {
         if(!this.passwordHasUppercaseCharacters(password)) {
             return false;
         }
+        if(!this.passwordHasLowercaseCharacters(password)) {
+            return false;
+        }
         // Check password
+        if(!this.passwordIsCorrect(email,password)) {
+            return false;
+        }
+        if (this.gameService != null) {
+            gameService.setPlayer(new Admin(email, true));
+        }
         return true;
     }
 
@@ -72,6 +85,16 @@ public class UserService {
         }
         return false;
     }
+
+    protected boolean passwordHasLowercaseCharacters(char[] password) {
+        for(int i=0;i<password.length;i++){
+            if((Character.isLowerCase(password[i]))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private boolean passwordIsCorrect(String username, char[] password) {
         final String hash = Hashing.sha256().

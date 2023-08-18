@@ -1,5 +1,6 @@
 package de.viadee.javakurs;
 
+import de.viadee.javakurs.services.GameService;
 import de.viadee.javakurs.services.UserService;
 import de.viadee.javakurs.view.LoginWindow;
 
@@ -17,7 +18,8 @@ public class App {
         mainWindow.setIconImage(new ImageIcon(getClass().getResource("/pizza.png")).getImage());
 
         // Initialize Sub-Windows
-        this.loginWindow = new LoginWindow(new UserService());
+        final GameService gameService = new GameService();
+        this.loginWindow = new LoginWindow(new UserService(gameService));
 
         // Switch to login
         SwingUtilities.invokeLater(this::switchToLoginWindow);
