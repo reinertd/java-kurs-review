@@ -3,6 +3,7 @@ package de.viadee.javakurs.services;
 import com.google.common.hash.Hashing;
 import de.viadee.javakurs.model.Admin;
 import de.viadee.javakurs.model.PasswordValidator;
+import de.viadee.javakurs.model.Player;
 import org.apache.commons.validator.EmailValidator;
 
 import java.nio.charset.StandardCharsets;
@@ -47,7 +48,11 @@ public class UserService {
             return false;
         }
         if (this.gameService != null) {
-            gameService.setPlayer(new Admin(email, true));
+            if(email.equals("admin@test.de")) {
+                gameService.setPlayer(new Admin(email, true));
+            } else {
+                gameService.setPlayer(new Player(email,true));
+            }
         }
         return true;
     }
