@@ -29,7 +29,7 @@ public class UserService {
         if(!this.emailIsOk(email)) {
             return false;
         }
-        // Valiate Passwords
+        // Validate Passwords
         if(!this.passwordLengthIsOk(password)) {
             return false;
         }
@@ -101,6 +101,16 @@ public class UserService {
                 hashString(String.valueOf(password), StandardCharsets.UTF_8).toString();
         if (username.equals("test@test.de") &&
                 hash.equals("3faebbbfcae364da3f14ab80a2a826f3c27a7b6a8c763d8fe96b25d2f8334e94")) {
+            // Login Ok, keine Fehlermeldung
+            return true;
+        }
+        if (username.equals("admin@test.de") &&
+                hash.equals("22b7dec7305d63e2c769b0c9141114e69a194cc853b444c73b7be3a0771b628a")) {
+            // Login Ok, keine Fehlermeldung
+            return true;
+        }
+        if (username.equals("test2@test.de") &&
+                hash.equals("05e68a30269aa6d361fb5f657a321895f58388699d7539ac4ae43a7b50867f06")) {
             // Login Ok, keine Fehlermeldung
             return true;
         }

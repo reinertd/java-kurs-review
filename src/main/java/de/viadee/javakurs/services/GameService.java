@@ -18,4 +18,8 @@ public class GameService {
         this.gameState.player = player;
     }
 
+    public synchronized User getPlayer() {
+        return this.gameState.player;
+    }
+
 }

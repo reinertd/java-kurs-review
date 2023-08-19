@@ -20,7 +20,7 @@ public class LoginWindow extends JPanel {
         add(emailLabel);
         add(email);
 
-        add(Box.createRigidArea(new Dimension(14, 30)));
+        add(Box.createRigidArea(new Dimension(18, 30)));
 
         final JPasswordField password = new JPasswordField(20);
         JLabel passwordLabel = new JLabel("Passwort:");
