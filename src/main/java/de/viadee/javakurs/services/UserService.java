@@ -5,9 +5,11 @@ import de.viadee.javakurs.model.Admin;
 import de.viadee.javakurs.model.PasswordValidator;
 import de.viadee.javakurs.model.PasswortToShortValidator;
 import de.viadee.javakurs.model.Player;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.validator.EmailValidator;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class UserService {
 
@@ -24,7 +26,27 @@ public class UserService {
         this.emailValidator = EmailValidator.getInstance();
         this.passwordValidators = new PasswordValidator[4];
         this.passwordValidators[0] = new PasswortToShortValidator();
-        //TODO: Weitere drei Validatoren
+        this.passwordValidators[1] = new PasswordValidator() {
+            @Override
+            public String validate(char[] password) {
+                for(int i=0;i<password.length;i++){
+                    if((Character.isDigit(password[i]))) {
+                        return UserService.LOGIN_OK;
+                    }
+                }
+                return "Password has no digits ";
+            }
+        };
+        this.passwordValidators[2] = password -> {
+            for(int i=0;i<password.length;i++){
+                if((Character.isUpperCase(password[i]))) {
+                    return UserService.LOGIN_OK;
+                }
+            }
+            return "Password has no upper case characters ";
+        };
+        this.passwordValidators[3] = password -> Arrays.asList(ArrayUtils.toObject(password))
+                .stream().anyMatch(Character::isLowerCase)?UserService.LOGIN_OK:"Password has no lower case characters ";
     }
 
     public String login(String email, char[] password) {
