@@ -3,6 +3,7 @@ package de.viadee.javakurs.services;
 import com.google.common.hash.Hashing;
 import de.viadee.javakurs.model.Admin;
 import de.viadee.javakurs.model.PasswordValidator;
+import de.viadee.javakurs.model.PasswortToShortValidator;
 import de.viadee.javakurs.model.Player;
 import org.apache.commons.validator.EmailValidator;
 
@@ -10,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 public class UserService {
 
-    protected static final String LOGIN_OK = "Login Ok";
+    public static final String LOGIN_OK = "Login Ok";
 
     private final EmailValidator emailValidator;
 
@@ -21,40 +22,38 @@ public class UserService {
     public UserService(GameService gameService) {
         this.gameService = gameService;
         this.emailValidator = EmailValidator.getInstance();
-        this.passwordValidators = new PasswordValidator[1];
+        this.passwordValidators = new PasswordValidator[4];
+        this.passwordValidators[0] = new PasswortToShortValidator();
+        //TODO: Weitere drei Validatoren
     }
 
-    public boolean login(String email, char[] password) {
+    public String login(String email, char[] password) {
         final StringBuffer messages = new StringBuffer();
         // Validate E-Mail
         if(!this.emailIsOk(email)) {
-            return false;
+            return "Invalid e-mail ";
         }
         // Validate Passwords
-        if(!this.passwordLengthIsOk(password)) {
-            return false;
-        }
-        if(!this.passwordHasDigits(password)) {
-            return false;
-        }
-        if(!this.passwordHasUppercaseCharacters(password)) {
-            return false;
-        }
-        if(!this.passwordHasLowercaseCharacters(password)) {
-            return false;
+        for (int i = 0; i < passwordValidators.length; i++) {
+            final String passwordMessage = passwordValidators[i] != null?
+                    passwordValidators[i].validate(password):UserService.LOGIN_OK;
+            if (!LOGIN_OK.equals(passwordMessage)) {
+                messages.append(passwordMessage);
+            }
         }
         // Check password
-        if(!this.passwordIsCorrect(email,password)) {
-            return false;
+        if(messages.length() == 0 && !this.passwordIsCorrect(email,password)) {
+            return "User or password incorrect ";
         }
-        if (this.gameService != null) {
+        if (this.gameService != null && messages.length() == 0) {
             if(email.equals("admin@test.de")) {
                 gameService.setPlayer(new Admin(email, true));
             } else {
                 gameService.setPlayer(new Player(email,true));
             }
+            return LOGIN_OK;
         }
-        return true;
+        return messages.toString();
     }
 
     protected boolean emailIsOk(String email) {

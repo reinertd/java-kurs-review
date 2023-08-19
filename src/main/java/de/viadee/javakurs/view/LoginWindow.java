@@ -25,7 +25,7 @@ public class LoginWindow extends JPanel {
         final JPasswordField password = new JPasswordField(20);
         JLabel passwordLabel = new JLabel("Passwort:");
         passwordLabel.setLabelFor(password);
-        ActionListener loginaction = (e) -> message.setText(userService.login(email.getText(), password.getPassword())?"Login Ok":"Login failed");
+        ActionListener loginaction = (e) -> message.setText(userService.login(email.getText(), password.getPassword()));
         password.addActionListener(loginaction);
         add(passwordLabel);
         add(password);

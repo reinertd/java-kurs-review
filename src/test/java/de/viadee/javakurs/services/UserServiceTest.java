@@ -35,13 +35,13 @@ public class UserServiceTest {
 
     @Test
     public void loginTest() {
-        Assert.assertTrue("Passwort ist nicht richtig, obwohl es korrekt sein sollte", userService.login("test@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
+        Assert.assertEquals("Passwort ist nicht richtig, obwohl es korrekt sein sollte", UserService.LOGIN_OK, userService.login("test@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
         Assert.assertEquals("Spieler ist Admin, obwohl er sich nicht als Admin angemeldet hat","Player",gameService.getPlayer().getClass().getSimpleName());
-        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("Hallo",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R', 'd'}));
-        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R'}));
-        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'a', 'a', 'A', 'a', '$', 'w', 'R', 'd'}));
-        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'a', 'a', '$', 'w', 'r', 'd'}));
-        Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'A', 'A', '$', 'W', 'R', 'D'}));
-        Assert.assertFalse("Passwort ist nicht richtig, obwohl es korrekt sein sollte", userService.login("t@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
+        Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Invalid e-mail ", userService.login("Hallo",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R', 'd'}));
+        Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Password to short ", userService.login("test@test.de",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R'}));
+        Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Password has no digits ", userService.login("test@test.de",new char[]{'a', 'a', 'A', 'a', '$', 'w', 'R', 'd'}));
+        Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Password has no upper case characters ", userService.login("test@test.de",new char[]{'1', '2', 'a', 'a', '$', 'w', 'r', 'd'}));
+        Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Password has no lower case characters ", userService.login("test@test.de",new char[]{'1', '2', 'A', 'A', '$', 'W', 'R', 'D'}));
+        Assert.assertEquals("Passwort ist nicht richtig, obwohl es korrekt sein sollte", "User or password incorrect ", userService.login("t@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
     }
 }
