@@ -2,6 +2,7 @@ package de.viadee.javakurs;
 
 import de.viadee.javakurs.services.GameService;
 import de.viadee.javakurs.services.UserService;
+import de.viadee.javakurs.view.GameWindow;
 import de.viadee.javakurs.view.LoginWindow;
 
 import javax.swing.*;
@@ -19,13 +20,17 @@ public class App {
 
         // Initialize Sub-Windows
         final GameService gameService = new GameService();
+        this.gameWindow = new GameWindow(gameService);
         this.loginWindow = new LoginWindow(new UserService(gameService));
 
+        // Switch to game after login
+        // TODO: Listen for GameState
         // Switch to login
         SwingUtilities.invokeLater(this::switchToLoginWindow);
     }
 
     private final LoginWindow loginWindow;
+    private final GameWindow gameWindow;
 
     public static void main(String[] args) {
         new App();
@@ -38,5 +43,15 @@ public class App {
         mainWindow.setResizable(false);
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setVisible(true);
+    }
+
+    public void switchToGameWindow() {
+        mainWindow.setContentPane(gameWindow);
+        mainWindow.pack();
+        mainWindow.setSize(GameWindow.WIDTH, GameWindow.HEIGHT);
+        mainWindow.setResizable(false);
+        mainWindow.setLocationRelativeTo(null);
+        mainWindow.setVisible(true);
+        gameWindow.requestFocusInWindow();
     }
 }

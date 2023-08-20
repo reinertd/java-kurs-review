@@ -68,11 +68,7 @@ public class UserService {
             return "User or password incorrect ";
         }
         if (this.gameService != null && messages.length() == 0) {
-            if(email.equals("admin@test.de")) {
-                gameService.setPlayer(new Admin(email, true));
-            } else {
-                gameService.setPlayer(new Player(email,true));
-            }
+            gameService.setPlayer(new Player(email,true));
             return LOGIN_OK;
         }
         return messages.toString();

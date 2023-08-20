@@ -20,5 +20,6 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.2.0'
     implementation 'org.apache.commons:commons-lang3:3.13.0'
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation "io.reactivex.rxjava3:rxjava:3.1.6"
     testImplementation 'junit:junit:4.13.1'
 }
