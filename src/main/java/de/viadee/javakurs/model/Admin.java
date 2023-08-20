@@ -7,7 +7,7 @@ public class Admin extends User {
     }
 
     @Override
-    Boolean isAdmin() {
+    public Boolean isAdmin() {
         return this.isLoggedIn() && this.username.equals("admin@test.de");
     }
 }

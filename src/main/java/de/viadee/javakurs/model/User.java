@@ -11,7 +11,7 @@ public abstract class User {
         this.loggedIn = loggedIn;
     }
 
-    abstract Boolean isAdmin();
+    public abstract Boolean isAdmin();
 
     public Boolean isLoggedIn() {
         return loggedIn;

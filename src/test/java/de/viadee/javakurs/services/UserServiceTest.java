@@ -37,6 +37,10 @@ public class UserServiceTest {
     public void loginTest() {
         Assert.assertTrue("Passwort ist nicht richtig, obwohl es korrekt sein sollte", userService.login("test@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
         Assert.assertEquals("Spieler ist Admin, obwohl er sich nicht als Admin angemeldet hat","Player",gameService.getPlayer().getClass().getSimpleName());
+        Assert.assertEquals("Spieler ist Admin, obwohl er sich nicht als Admin angemeldet hat",false,gameService.getPlayer().isAdmin());
+        Assert.assertTrue("Passwort ist nicht richtig, obwohl es korrekt sein sollte", userService.login("admin@test.de",new char[]{'A', 'd', 'm', 'i', 'n', '1', '2', '3', '$'}));
+        Assert.assertEquals("Spieler ist kein Admin, obwohl er sich als Admin angemeldet hat","Admin",gameService.getPlayer().getClass().getSimpleName());
+        Assert.assertEquals("Spieler ist kein Admin, obwohl er sich als Admin angemeldet hat",true,gameService.getPlayer().isAdmin());
         Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("Hallo",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R', 'd'}));
         Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R'}));
         Assert.assertFalse("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", userService.login("test@test.de",new char[]{'a', 'a', 'A', 'a', '$', 'w', 'R', 'd'}));
