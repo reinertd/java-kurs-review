@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Daten/01_viadee/java-kurs/java-kurs/java-kurs/src/main/java</OriginalElement>
+  <nodes>
+    <node x="-850.5975600957509" y="328.06976744186045">de.viadee.javakurs.services.UserService</node>
+    <node x="-783.9192754919501" y="668.1788908765653">de.viadee.javakurs.model.PasswordValidator</node>
+    <node x="-1047.5531321440583" y="508.48406798828194">de.viadee.javakurs.model.Admin</node>
+    <node x="-420.12832131958316" y="692.3247990524146">de.viadee.javakurs.model.GameState</node>
+    <node x="-435.12832131958316" y="323.6395348837209">de.viadee.javakurs.services.GameService</node>
+    <node x="-408.2714340208354" y="208.62254025044723">de.viadee.javakurs.view.LoginWindow</node>
+    <node x="-660.8247987477638" y="41.012522361359515">de.viadee.javakurs.App</node>
+    <node x="-1030.9712080560535" y="680.8247990524146">de.viadee.javakurs.model.User</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="de.viadee.javakurs.services.GameService" target="de.viadee.javakurs.model.GameState" relationship="TO_ONE">
+      <point x="-30.0" y="49.5" />
+      <point x="-15.0" y="-49.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.services.GameService" target="de.viadee.javakurs.model.GameState" relationship="CREATE">
+      <point x="53.42668644219884" y="41.3700019010202" />
+      <point x="-268.28201634877405" y="414.5095367847411" />
+      <point x="70.84630497080911" y="-48.559131477482765" />
+    </edge>
+    <edge source="de.viadee.javakurs.model.Admin" target="de.viadee.javakurs.model.User" relationship="GENERALIZATION">
+      <point x="41.01925378827741" y="27.0" />
+      <point x="-932.5338783557809" y="754.7334525939177" />
+      <point x="-949.4712080560535" y="754.7334525939177" />
+      <point x="0.0" y="-60.5" />
+    </edge>
+    <edge source="de.viadee.javakurs.App" target="de.viadee.javakurs.view.LoginWindow" relationship="TO_ONE">
+      <point x="0.0" y="71.5" />
+      <point x="-557.8247987477638" y="235.62254025044723" />
+      <point x="-70.5" y="0.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.App" target="de.viadee.javakurs.services.GameService" relationship="CREATE">
+      <point x="103.0" y="0.0" />
+      <point x="-225.62832131958316" y="112.51252236135952" />
+      <point x="98.5" y="-49.5" />
+    </edge>
+    <edge source="de.viadee.javakurs.model.GameState" target="de.viadee.javakurs.model.User" relationship="TO_ONE">
+      <point x="-81.0" y="0.0" />
+      <point x="81.5" y="0.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.services.UserService" target="de.viadee.javakurs.model.PasswordValidator" relationship="CREATE">
+      <point x="0.0" y="137.5" />
+      <point x="9.321715396199238" y="-27.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.App" target="de.viadee.javakurs.services.UserService" relationship="CREATE">
+      <point x="-77.77205882352945" y="-71.5" />
+      <point x="-635.5968575712932" y="603.0697674418604" />
+      <point x="154.0" y="137.5" />
+    </edge>
+    <edge source="de.viadee.javakurs.App" target="de.viadee.javakurs.view.LoginWindow" relationship="CREATE">
+      <point x="103.0" y="15.0" />
+      <point x="-337.7714340208354" y="127.51252236135952" />
+      <point x="0.0" y="-27.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.services.UserService" target="de.viadee.javakurs.model.PasswordValidator" relationship="TO_MANY">
+      <point x="-15.0" y="137.5" />
+      <point x="-5.678284603800762" y="-27.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.services.UserService" target="de.viadee.javakurs.model.Admin" relationship="CREATE">
+      <point x="-161.5" y="0.0" />
+      <point x="-980.5531321440583" y="465.56976744186045" />
+      <point x="-7.0" y="-27.0" />
+    </edge>
+    <edge source="de.viadee.javakurs.services.UserService" target="de.viadee.javakurs.services.GameService" relationship="TO_ONE">
+      <point x="161.5" y="-92.43023255813955" />
+      <point x="-111.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8265765765765766" showDependencies="true" x="-566.5000000000001" y="474.99999999999994" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
