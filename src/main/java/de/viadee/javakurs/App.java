@@ -1,5 +1,6 @@
 package de.viadee.javakurs;
 
+import de.viadee.javakurs.model.GameState;
 import de.viadee.javakurs.services.GameService;
 import de.viadee.javakurs.services.UserService;
 import de.viadee.javakurs.view.GameWindow;
@@ -24,7 +25,9 @@ public class App {
         this.loginWindow = new LoginWindow(new UserService(gameService));
 
         // Switch to game after login
-        // TODO: Listen for GameState
+        gameService.getGameState()
+                .doOnNext(state -> this.switchToGameWindow(state))
+                .subscribe();
         // Switch to login
         SwingUtilities.invokeLater(this::switchToLoginWindow);
     }
@@ -45,13 +48,18 @@ public class App {
         mainWindow.setVisible(true);
     }
 
-    public void switchToGameWindow() {
-        mainWindow.setContentPane(gameWindow);
-        mainWindow.pack();
-        mainWindow.setSize(GameWindow.WIDTH, GameWindow.HEIGHT);
-        mainWindow.setResizable(false);
-        mainWindow.setLocationRelativeTo(null);
-        mainWindow.setVisible(true);
-        gameWindow.requestFocusInWindow();
+    public void switchToGameWindow(GameState state) {
+        if (mainWindow.getContentPane() != gameWindow &&
+                state.player != null &&
+                state.player.isLoggedIn()) {
+            System.out.println("Switch to Game-Window");
+            mainWindow.setContentPane(gameWindow);
+            mainWindow.pack();
+            mainWindow.setSize(GameWindow.WIDTH, GameWindow.HEIGHT);
+            mainWindow.setResizable(false);
+            mainWindow.setLocationRelativeTo(null);
+            mainWindow.setVisible(true);
+            gameWindow.requestFocusInWindow();
+        }
     }
 }
