@@ -61,7 +61,8 @@ public class GameWindow extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        // TODO: Paint
+        g.drawImage(this.levelBackground,0,0,null);
+        g.drawImage(this.player, 123, 223, null);
     }
 
     @Override
