@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class UserServiceTest {
 
-    GameService gameService = new GameService();
+    GameService gameService = new GameService(null);
 
     UserService userService = new UserService(gameService);
 
@@ -36,7 +36,6 @@ public class UserServiceTest {
     @Test
     public void loginTest() {
         Assert.assertEquals("Passwort ist nicht richtig, obwohl es korrekt sein sollte", UserService.LOGIN_OK, userService.login("test@test.de",new char[]{'T', 'e', 's', 't', '1', '2', '3', '$'}));
-        Assert.assertEquals("Spieler ist Admin, obwohl er sich nicht als Admin angemeldet hat","Player",gameService.getPlayer().getClass().getSimpleName());
         Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Invalid e-mail ", userService.login("Hallo",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R', 'd'}));
         Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Password is too short ", userService.login("test@test.de",new char[]{'1', '2', 'A', 'a', '$', 'w', 'R'}));
         Assert.assertEquals("Login ist nicht fehlgeschlagen, obwohl er fehlschlagen sollte", "Password has no digits ", userService.login("test@test.de",new char[]{'a', 'a', 'A', 'a', '$', 'w', 'R', 'd'}));

@@ -1,7 +1,9 @@
 package de.viadee.javakurs.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Player extends User {
-    public Player(String username, Boolean loggedIn) {
+    public Player(@JsonProperty("username") String username, @JsonProperty("loggedIn") Boolean loggedIn) {
         super(username, loggedIn);
     }
 

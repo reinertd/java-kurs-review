@@ -1,5 +1,7 @@
 package de.viadee.javakurs.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.viadee.javakurs.model.GameState;
 import de.viadee.javakurs.model.Player;
 import io.reactivex.rxjava3.core.Observable;
@@ -23,11 +25,30 @@ public class GameService {
 
     protected BufferedImage levelStreetmap;
 
-    public GameService() {
+    private FirestoreService firestoreService;
+
+    public GameService(FirestoreService firestoreService) {
+        this.firestoreService = firestoreService;
+        if(firestoreService != null) {
+            if(!firestoreService.logIntoFirebase()) {
+                this.firestoreService = null;
+            }
+        }
+        if (this.firestoreService != null) {
+            firestoreService.updateGamestate(this.gameStateToJSON(this.gameState$.getValue()));
+            firestoreService.getGamestates().doOnNext(
+                    (s) -> {
+                        this.gameState$.onNext(this.jsonToGameState(s));
+                        this.gameLoop(0l);
+                    }
+            ).subscribe();
+        }
         this.loadStreets();
-        Observable.interval(34, TimeUnit.MILLISECONDS)
-                .doOnNext(this::gameLoop)
-                .subscribe();
+        if (this.firestoreService == null) {
+            Observable.interval(34, TimeUnit.MILLISECONDS)
+                    .doOnNext(this::gameLoop)
+                    .subscribe();
+        }
     }
 
     public void loadStreets() {
@@ -62,7 +83,11 @@ public class GameService {
             if (!this.gameState.won && delivered(this.gameState.playerPosition)) {
                 this.gameState.won = true;
             }
-            this.gameState$.onNext(this.gameState);
+            if (firestoreService != null) {
+                this.firestoreService.updateGamestate(this.gameStateToJSON(this.gameState));
+            } else {
+                this.gameState$.onNext(this.gameState);
+            }
         }
     }
 
@@ -98,18 +123,48 @@ public class GameService {
         this.gameState = this.gameState$.getValue();
         this.gameState.player = player;
         this.gameState.playerPosition = new Point(150, 250);
-        this.gameState$.onNext(this.gameState);
+        if (firestoreService != null) {
+            this.firestoreService.updateGamestate(this.gameStateToJSON(this.gameState));
+        } else {
+            this.gameState$.onNext(this.gameState);
+        }
     }
 
     public synchronized void keyPressed(int keyCode) {
         if (!this.pressedKeys.contains(keyCode)) {
             this.pressedKeys.add(keyCode);
+            if (firestoreService != null) {
+                this.gameLoop(0l);
+            }
         }
     }
 
     public synchronized void keyReleased(int keyCode) {
         if (this.pressedKeys.contains(keyCode)) {
             this.pressedKeys.remove((Integer) keyCode);
+            if (firestoreService != null) {
+                this.gameLoop(0l);
+            }
+        }
+    }
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public String gameStateToJSON(GameState gameState) {
+        try {
+            return this.objectMapper.writeValueAsString(gameState);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public GameState jsonToGameState(String gameState) {
+        try {
+            return this.objectMapper.readValue(gameState, GameState.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

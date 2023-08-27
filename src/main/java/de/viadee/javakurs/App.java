@@ -1,6 +1,6 @@
 package de.viadee.javakurs;
 
-import de.viadee.javakurs.model.GameState;
+import de.viadee.javakurs.services.FirestoreService;
 import de.viadee.javakurs.services.GameService;
 import de.viadee.javakurs.services.UserService;
 import de.viadee.javakurs.view.GameWindow;
@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class App {
 
-    public static String TITEL = "Diavolo 5";
+    public static String TITEL = "Dijavalo 5";
 
     private final JFrame mainWindow;
 
@@ -20,14 +20,22 @@ public class App {
         mainWindow.setIconImage(new ImageIcon(getClass().getResource("/pizza.png")).getImage());
 
         // Initialize Sub-Windows
-        final GameService gameService = new GameService();
+        final GameService gameService = new GameService(new FirestoreService());
         this.gameWindow = new GameWindow(gameService);
         this.loginWindow = new LoginWindow(new UserService(gameService));
 
         // Switch to game after login
         gameService.getGameState()
-                .doOnNext(state -> this.switchToGameWindow(state))
+                .filter(state-> state.player != null &&
+                        state.player.isLoggedIn())
+                .filter(state -> mainWindow.getContentPane() != gameWindow)
+                .map(state -> state.player)
+                .doOnNext((player) -> {
+                    System.out.println("Switch to Game-Window");
+                    this.switchToGameWindow();
+                })
                 .subscribe();
+
         // Switch to login
         SwingUtilities.invokeLater(this::switchToLoginWindow);
     }
@@ -48,18 +56,13 @@ public class App {
         mainWindow.setVisible(true);
     }
 
-    public void switchToGameWindow(GameState state) {
-        if (mainWindow.getContentPane() != gameWindow &&
-                state.player != null &&
-                state.player.isLoggedIn()) {
-            System.out.println("Switch to Game-Window");
-            mainWindow.setContentPane(gameWindow);
-            mainWindow.pack();
-            mainWindow.setSize(GameWindow.WIDTH, GameWindow.HEIGHT);
-            mainWindow.setResizable(false);
-            mainWindow.setLocationRelativeTo(null);
-            mainWindow.setVisible(true);
-            gameWindow.requestFocusInWindow();
-        }
+    public void switchToGameWindow() {
+        mainWindow.setContentPane(gameWindow);
+        mainWindow.pack();
+        mainWindow.setSize(GameWindow.WIDTH, GameWindow.HEIGHT);
+        mainWindow.setResizable(false);
+        mainWindow.setLocationRelativeTo(null);
+        mainWindow.setVisible(true);
+        gameWindow.requestFocusInWindow();
     }
 }
