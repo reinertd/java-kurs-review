@@ -42,7 +42,7 @@ public class GameService {
     private synchronized void gameLoop(Long aLong) {
         this.gameState = this.gameState$.getValue();
         if (this.gameState != null && this.gameState.playerPosition != null && !this.gameState.won) {
-            // bewege den Spieler nach rechts
+            // Move to the right
             if (this.pressedKeys.contains(KeyEvent.VK_RIGHT) && canMove(this.gameState.playerPosition, 5, 0)) {
                 this.gameState.playerPosition.translate(5, 0);
             }
@@ -58,6 +58,8 @@ public class GameService {
             if (this.pressedKeys.contains(KeyEvent.VK_DOWN) && canMove(this.gameState.playerPosition, 0, 5)) {
                 this.gameState.playerPosition.translate(0, 5);
             }
+            // Pizza ausgeliefert ?
+            // TODO: Benutze Metode delivered um zu prüfen, ob der Spieler sich in einer roten Zone befindet
             this.gameState$.onNext(this.gameState);
         }
     }
