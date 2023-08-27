@@ -16,6 +16,12 @@ application {
     mainClass = 'de.viadee.javakurs.App'
 }
 
+apply plugin: 'java'
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
 dependencies {
     implementation 'commons-validator:commons-validator:1.2.0'
     implementation 'org.apache.commons:commons-lang3:3.13.0'

@@ -167,8 +167,6 @@ public class GameService {
         this.gameState[0].won = false;
         this.gameState[1].won = false;
         if (firestoreService != null) {
-            this.gameState[this.playerNumber-1].player.setLoggedIn(false);
-            this.firestoreService.updateGamestate(this.playerNumber,this.gameStateToJSON(this.gameState[playerNumber-1]));
             this.gameState[this.playerNumber-1].player.setLoggedIn(true);
             this.firestoreService.updateGamestate(this.playerNumber,this.gameStateToJSON(this.gameState[playerNumber-1]));
         } else {

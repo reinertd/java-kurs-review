@@ -55,8 +55,10 @@ public class FirestoreService {
         }
     }
 
+    private String lastGameState = "";
+
     public synchronized boolean updateGamestate(int playerNumber, String gameState) {
-        if (firestore != null && playerNumber > 0) {
+        if (firestore != null && playerNumber > 0 && !lastGameState.equals(gameState)) {
             try {
                 Map<String, String> data = new TreeMap<>();
                 data.put("data", gameState);
