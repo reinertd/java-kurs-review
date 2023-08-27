@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class GameState {
 
-    public User player;
+    public Player player;
 
     public Point playerPosition;
 

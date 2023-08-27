@@ -61,8 +61,17 @@ public class GameWindow extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawImage(this.levelBackground,0,0,null);
-        g.drawImage(this.player, 123, 223, null);
+        g.drawImage(this.levelBackground, 0, 0, this);
+        if (this.state.playerPosition != null) {
+            g.drawImage(this.player, this.state.playerPosition.x - 28, this.state.playerPosition.y - 28, this);
+        }
+        if (this.state.won) {
+            Font font = new Font("Sans", Font.BOLD, 40);
+            g.setFont(font);
+            g.setColor(Color.YELLOW);
+            g.drawString("Herzlichen Gl\u00fcckwunsch!", 80, 170);
+            g.drawString("Pizza ausgeliefert.", 80, 220);
+        }
     }
 
     @Override

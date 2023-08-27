@@ -1,9 +1,8 @@
 package de.viadee.javakurs.services;
 
 import com.google.common.hash.Hashing;
-import de.viadee.javakurs.model.Admin;
 import de.viadee.javakurs.model.PasswordValidator;
-import de.viadee.javakurs.model.PasswortToShortValidator;
+import de.viadee.javakurs.model.PasswordTooShort;
 import de.viadee.javakurs.model.Player;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.validator.EmailValidator;
@@ -25,7 +24,7 @@ public class UserService {
         this.gameService = gameService;
         this.emailValidator = EmailValidator.getInstance();
         this.passwordValidators = new PasswordValidator[4];
-        this.passwordValidators[0] = new PasswortToShortValidator();
+        this.passwordValidators[0] = new PasswordTooShort();
         this.passwordValidators[1] = new PasswordValidator() {
             @Override
             public String validate(char[] password) {
