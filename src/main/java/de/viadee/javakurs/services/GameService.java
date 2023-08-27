@@ -43,11 +43,21 @@ public class GameService {
         this.gameState = this.gameState$.getValue();
         if (this.gameState != null && this.gameState.playerPosition != null && !this.gameState.won) {
             // bewege den Spieler nach rechts
-            if (this.pressedKeys.contains(KeyEvent.VK_RIGHT)) {
-                this.gameState.playerPosition.translate(1, 0);
+            if (this.pressedKeys.contains(KeyEvent.VK_RIGHT) && canMove(this.gameState.playerPosition, 5, 0)) {
+                this.gameState.playerPosition.translate(5, 0);
             }
-            // TODO: bewege den Spieler in die anderen Richtungen
-            // TODO: Prüfe, ob der Spieler überhaupt da hin darf, wo er hin möchte :-)
+            // Move to the left
+            if (this.pressedKeys.contains(KeyEvent.VK_LEFT) && canMove(this.gameState.playerPosition, -5, 0)) {
+                this.gameState.playerPosition.translate(-5, 0);
+            }
+            // Move up
+            if (this.pressedKeys.contains(KeyEvent.VK_UP) && canMove(this.gameState.playerPosition, 0, -5)) {
+                this.gameState.playerPosition.translate(0, -5);
+            }
+            // Move down
+            if (this.pressedKeys.contains(KeyEvent.VK_DOWN) && canMove(this.gameState.playerPosition, 0, 5)) {
+                this.gameState.playerPosition.translate(0, 5);
+            }
             this.gameState$.onNext(this.gameState);
         }
     }
