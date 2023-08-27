@@ -63,16 +63,19 @@ public class GameWindow extends JPanel implements KeyListener {
     public void paint(Graphics g) {
         super.paint(g);
         g.drawImage(this.levelBackground, 0, 0, this);
-        if (this.state[0].playerPosition != null && this.state[0].player != null && this.state[0].player.isLoggedIn()) {
-            g.drawImage(this.player[0], this.state[0].playerPosition.x - 28, this.state[0].playerPosition.y - 28, this);
+        for(int i=0;i<2;i++) {
+            if (this.state[i].playerPosition != null && this.state[i].player != null && this.state[i].player.isLoggedIn()) {
+                g.drawImage(this.player[i], this.state[i].playerPosition.x - 28, this.state[i].playerPosition.y - 28, this);
+            }
         }
-        // TODO: Beide Spieler zeichnen und Bildschirm anzeigen wenn ein Spieler gewonnen hat
-        if (this.state[0].won) {
-            Font font = new Font("Sans", Font.BOLD, 40);
-            g.setFont(font);
-            g.setColor(Color.YELLOW);
-            g.drawString("Herzlichen Gl\u00fcckwunsch!", 80, 170);
-            g.drawString(" Player 1 hat gewonnen!", 80, 220);
+        for(int i=0;i<2;i++) {
+            if (this.state[i].won) {
+                Font font = new Font("Sans", Font.BOLD, 40);
+                g.setFont(font);
+                g.setColor(Color.YELLOW);
+                g.drawString("Herzlichen Gl\u00fcckwunsch!", 80, 170);
+                g.drawString(" Player "+(i+1)+" hat gewonnen!", 80, 220);
+            }
         }
     }
 
