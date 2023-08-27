@@ -58,8 +58,10 @@ public class GameService {
             if (this.pressedKeys.contains(KeyEvent.VK_DOWN) && canMove(this.gameState.playerPosition, 0, 5)) {
                 this.gameState.playerPosition.translate(0, 5);
             }
-            // Pizza ausgeliefert ?
-            // TODO: Benutze Metode delivered um zu prüfen, ob der Spieler sich in einer roten Zone befindet
+            // Pizza delivered?
+            if (!this.gameState.won && delivered(this.gameState.playerPosition)) {
+                this.gameState.won = true;
+            }
             this.gameState$.onNext(this.gameState);
         }
     }
@@ -97,10 +99,6 @@ public class GameService {
         this.gameState.player = player;
         this.gameState.playerPosition = new Point(150, 250);
         this.gameState$.onNext(this.gameState);
-    }
-
-    public synchronized Player getPlayer() {
-        return this.gameState.player;
     }
 
     public synchronized void keyPressed(int keyCode) {
