@@ -7,25 +7,29 @@ import de.viadee.javakurs.view.GameWindow;
 import de.viadee.javakurs.view.LoginWindow;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class App {
+public class App implements WindowListener {
 
     public static String TITEL = "Dijavalo 5";
 
     private final JFrame mainWindow;
 
+    final GameService gameService = new GameService(new FirestoreService());
+
     public App() {
         mainWindow = new JFrame(TITEL);
+        mainWindow.addWindowListener(this);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setIconImage(new ImageIcon(getClass().getResource("/pizza.png")).getImage());
 
         // Initialize Sub-Windows
-        final GameService gameService = new GameService(new FirestoreService());
         this.gameWindow = new GameWindow(gameService);
         this.loginWindow = new LoginWindow(new UserService(gameService));
 
         // Switch to game after login
-        gameService.getGameState()
+        gameService.getGameStateForPlayer()
                 .filter(state-> state.player != null &&
                         state.player.isLoggedIn())
                 .filter(state -> mainWindow.getContentPane() != gameWindow)
@@ -65,4 +69,27 @@ public class App {
         mainWindow.setVisible(true);
         gameWindow.requestFocusInWindow();
     }
+
+    @Override
+    public void windowOpened(WindowEvent e) {    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        this.gameService.logOut();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {    }
 }

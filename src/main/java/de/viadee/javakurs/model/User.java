@@ -4,7 +4,7 @@ public abstract class User {
 
     protected String username;
 
-    private final Boolean loggedIn;
+    protected Boolean loggedIn;
 
     public User(String username, Boolean loggedIn) {
         this.username = username;
@@ -15,6 +15,14 @@ public abstract class User {
 
     public Boolean isLoggedIn() {
         return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 
 }

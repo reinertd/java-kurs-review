@@ -17,13 +17,13 @@ public class GameWindow extends JPanel implements KeyListener {
 
     public static final int HEIGHT = 400;
 
-    private GameState state;
+    private GameState[] state;
 
     private GameService gameService;
 
     protected BufferedImage levelBackground;
 
-    protected BufferedImage player;
+    protected BufferedImage[] player = new BufferedImage[2];
 
     public GameWindow(GameService gameService) {
         this.gameService = gameService;
@@ -52,7 +52,8 @@ public class GameWindow extends JPanel implements KeyListener {
 
     public void loadPlayer() {
         try {
-            this.player = ImageIO.read(getClass().getResource("/rad.png"));
+            this.player[0] = ImageIO.read(getClass().getResource("/rad.png"));
+            this.player[1] = ImageIO.read(getClass().getResource("/rad2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,15 +63,16 @@ public class GameWindow extends JPanel implements KeyListener {
     public void paint(Graphics g) {
         super.paint(g);
         g.drawImage(this.levelBackground, 0, 0, this);
-        if (this.state.playerPosition != null) {
-            g.drawImage(this.player, this.state.playerPosition.x - 28, this.state.playerPosition.y - 28, this);
+        if (this.state[0].playerPosition != null && this.state[0].player != null && this.state[0].player.isLoggedIn()) {
+            g.drawImage(this.player[0], this.state[0].playerPosition.x - 28, this.state[0].playerPosition.y - 28, this);
         }
-        if (this.state.won) {
+        // TODO: Beide Spieler zeichnen und Bildschirm anzeigen wenn ein Spieler gewonnen hat
+        if (this.state[0].won) {
             Font font = new Font("Sans", Font.BOLD, 40);
             g.setFont(font);
             g.setColor(Color.YELLOW);
             g.drawString("Herzlichen Gl\u00fcckwunsch!", 80, 170);
-            g.drawString("Pizza ausgeliefert.", 80, 220);
+            g.drawString(" Player 1 hat gewonnen!", 80, 220);
         }
     }
 

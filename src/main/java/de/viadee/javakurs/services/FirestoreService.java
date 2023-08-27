@@ -55,12 +55,12 @@ public class FirestoreService {
         }
     }
 
-    public synchronized boolean updateGamestate(String gameState) {
-        if (firestore != null) {
+    public synchronized boolean updateGamestate(int playerNumber, String gameState) {
+        if (firestore != null && playerNumber > 0) {
             try {
                 Map<String, String> data = new TreeMap<>();
                 data.put("data", gameState);
-                ApiFuture<WriteResult> future = firestore.collection("gamestate").document("state").set(data);
+                ApiFuture<WriteResult> future = firestore.collection("gamestate").document("state"+playerNumber).set(data);
                 WriteResult result = future.get(5000, TimeUnit.MILLISECONDS);
                 return true;
             } catch (InterruptedException e) {
@@ -74,9 +74,9 @@ public class FirestoreService {
         return false;
     }
 
-    public Observable<String> getGamestates() {
+    public Observable<String> getGamestates(int playerNumber) {
         BehaviorSubject<String> result = BehaviorSubject.create();
-        firestore.collection("gamestate").document("state").addSnapshotListener(
+        firestore.collection("gamestate").document("state"+playerNumber).addSnapshotListener(
                 (d, e) -> {
                     result.onNext((String) d.get("data"));
                 }
